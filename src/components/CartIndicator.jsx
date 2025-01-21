@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { FaShoppingCart } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'react'
+import { setUserAction } from '../redux/actions'
 
 // REGOLE DEGLI HOOKS
 // 1) solo nei componenti react a funzione
@@ -28,21 +29,21 @@ const CartIndicator = () => {
   return (
     <div className="d-flex justify-content-end my-4">
       {name ? (
-        <Button
-          onClick={() => navigate('/cart')}
-          className="d-flex align-items-center"
-        >
-          <FaShoppingCart />
-          <span className="ms-2">{content.length}</span>
-        </Button>
+        <>
+          <span className="d-flex align-items-center me-2">Ciao, {name}!</span>
+          <Button
+            onClick={() => navigate('/cart')}
+            className="d-flex align-items-center"
+          >
+            <FaShoppingCart />
+            <span className="ms-2">{content.length}</span>
+          </Button>
+        </>
       ) : (
         <Form
           onSubmit={(e) => {
             e.preventDefault()
-            dispatch({
-              type: 'SET_USER',
-              payload: inputValue,
-            })
+            dispatch(setUserAction(inputValue))
           }}
         >
           <Form.Control
