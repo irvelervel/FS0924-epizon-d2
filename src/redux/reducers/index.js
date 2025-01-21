@@ -1,3 +1,5 @@
+import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions'
+
 // qui dentro andrò a creare la funzione REDUCER del mio Redux Store
 // la funzione REDUCER è fondamentale perchè è la creatrice materiale dello
 // STATO dell'applicativo e delle sue successive iterazioni
@@ -8,6 +10,9 @@ const initialState = {
   cart: {
     // queste "sottosezioni" in Redux vengono chiamate "slices"
     content: [],
+  },
+  user: {
+    name: '', // <--
   },
 }
 
@@ -26,7 +31,7 @@ const mainReducer = (state = initialState, action) => {
   switch (action.type) {
     // qui andremo dopo a definire i vari "case"
 
-    case 'ADD_TO_CART':
+    case ADD_TO_CART:
       return {
         // questo nuovo oggetto che vado a creare sarà il NUOVO
         // stato di Redux per l'applicativo!
@@ -43,7 +48,7 @@ const mainReducer = (state = initialState, action) => {
         },
       }
 
-    case 'REMOVE_FROM_CART':
+    case REMOVE_FROM_CART:
       return {
         ...state,
         cart: {
@@ -67,6 +72,15 @@ const mainReducer = (state = initialState, action) => {
           //   ...state.cart.content.slice(action.payload + 1),
           // ],
           // },
+        },
+      }
+
+    case 'SET_USER':
+      return {
+        ...state, // copia dentro tutto lo stato corrente
+        user: {
+          ...state.user,
+          name: action.payload, // <-- il valore che avevo scritto nell'input
         },
       }
 

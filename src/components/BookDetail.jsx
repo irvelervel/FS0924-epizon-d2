@@ -1,12 +1,16 @@
 import { Col, Row, Button } from 'react-bootstrap'
 import { FaShoppingCart } from 'react-icons/fa'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToCartAction } from '../redux/actions'
 
 const BookDetail = ({ bookSelected }) => {
   // useDispatch mi permetterà di effettuare il "dispatch" di una o più
   // actions in questo componente
 
   const dispatch = useDispatch()
+
+  const name = useSelector((state) => state.user.name)
+  // name all'avvio è stringa vuota!
 
   return (
     <div className="mt-3 mb-4 mb-lg-0">
@@ -36,21 +40,22 @@ const BookDetail = ({ bookSelected }) => {
                 <span className="fw-bold">Price:</span>&nbsp;
                 {bookSelected.price}$
               </p>
-              <Button
-                className="d-flex align-items-center"
-                onClick={() => {
-                  // qui dentro voglio andare a "MODIFICARE" lo stato
-                  // -> e ovviamente intendo crearne uno nuovo!
-                  // dobbiamo svegliare il reducer -> DISPATCH di una action!
-                  dispatch({
-                    type: 'ADD_TO_CART',
-                    payload: bookSelected, // il libro da aggiungere!
-                  })
-                }}
-              >
-                <span className="me-2">AGGIUNGI AL</span>
-                <FaShoppingCart />
-              </Button>
+              {name ? (
+                <Button
+                  className="d-flex align-items-center"
+                  onClick={() => {
+                    // qui dentro voglio andare a "MODIFICARE" lo stato
+                    // -> e ovviamente intendo crearne uno nuovo!
+                    // dobbiamo svegliare il reducer -> DISPATCH di una action!
+                    dispatch(addToCartAction(bookSelected))
+                  }}
+                >
+                  <span className="me-2">AGGIUNGI AL</span>
+                  <FaShoppingCart />
+                </Button>
+              ) : (
+                <span>Effettua il login per acquistare questo libro</span>
+              )}
             </Col>
           </Row>
         </>
